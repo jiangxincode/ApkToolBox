@@ -1,5 +1,2 @@
-test.apk
-Apktool/test
-Apktool/test.apk
-dex2jar-2.1-SNAPSHOT/classes.dex
-dex2jar-2.1-SNAPSHOT/classes-dex2jar.jar
+*.apk
+tmp/
