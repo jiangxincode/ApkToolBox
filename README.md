@@ -45,3 +45,5 @@
 ## dexdump
 
 `dexdump.exe -d classes.dex > spk.txt`
+
+## zipalign
