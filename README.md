@@ -6,6 +6,23 @@
 
 如果出现Dex2Jar报错版本不支持，可以参考<http://blog.csdn.net/jltxgcy/article/details/52599353>重新编译源码。
 
+## Function
+
+         0: common. [input] is a file
+         10: decompile apk using apktool. [input] is a file
+         11: build apk using apktool. [input] is a directory
+         20: decompression apk using 7zip. [input] is a file
+         30: convert dex to jar using dex2jar. [input] is a file
+         40: open jar using jd-gui. [input] is a file
+         50: align apk using zipalign. [input] is a file
+         60: decode AndroidManifest.xml using AXMLPrinter3. [input] is a file
+         70: get dump file using dexdump. [input] is a file
+         80: reate Jasmin-like source files from DEX files using dedexer. [input] is a file
+         90: sign the apk using signapk. [input] is a file
+         100: decompile the dex using baksmali. [input] is a file
+         110: compile the dex using smali. [input] is a directory
+         200: get the screenshot
+
 ## Usage
 
 ```powershell

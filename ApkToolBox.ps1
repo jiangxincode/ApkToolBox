@@ -1,4 +1,4 @@
-﻿Param ($in, $out, [int]$option=0, [switch]$help, [switch]$version)
+﻿Param ($in, $out, [int]$option = 0, [switch]$help, [switch]$version)
 
 
 function APKToolDecode ($IN_PUT, $OUT_PUT) {
@@ -150,6 +150,16 @@ function smali ($IN_PUT, $OUT_PUT) {
     Write-Output "===============================================SignApk end"
 }
 
+function GetScreenShot ($OUT_PUT) {
+    Write-Output "===============================================GetScreenShot start"
+    adb shell /system/bin/screencap -p /sdcard/screenshot.png
+    If (!(Test-Path $OUT_PUT)) {
+        New-Item -ItemType Directory -Force -Path $OUT_PUT
+    }
+    $CURRENT_TIME = Get-Date -Format 'yyyyMMddHHmmss'
+    adb pull /sdcard/screenshot.png "$OUT_PUT/snapshot_$CURRENT_TIME.png"
+    Write-Output "===============================================GetScreenShot start"
+}
 
 
 if ($help) {
@@ -171,6 +181,7 @@ if ($help) {
     Write-Output "`t 90: sign the apk using signapk. [input] is a file"
     Write-Output "`t 100: decompile the dex using baksmali. [input] is a file"
     Write-Output "`t 110: compile the dex using smali. [input] is a directory"
+    Write-Output "`t 200: get the screenshot"
     
     return
 }
@@ -272,6 +283,10 @@ elseif ($option -eq 100) {
 }
 elseif ($option -eq 110) {
     smali $IN_PUT "$OUT_PUT/smali"
+    return
+}
+elseif ($option -eq 200) {
+    GetScreenShot "$OUT_PUT/snapshot"
     return
 }
 else {
