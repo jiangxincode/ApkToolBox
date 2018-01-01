@@ -1,13 +1,15 @@
 # APK 反编译
 
+* 本项目的目标是将常用的APK反编译相关的工具进行收集、整理，提供统一的shell接口，最终实现对 Android逆向助手、APKIDE、Android Multitool等闭源工具的完全替代。
+* 本项目依赖apktool、Dex2Jar、jd-gui、AXMLPrinter3等工具，版权归原工具作者所有。
+* 本项目欢迎大家共同修改。
+
+
 可以参考<http://blog.csdn.net/vipzjyno1/article/details/21039349/>，但是文中的工具版本过低，需要升级，且某些命令有所变更。如果出现Dex2Jar报错版本不支持，可以参考<http://blog.csdn.net/jltxgcy/article/details/52599353>重新编译源码。
 
 ## Apktool
 
 * <https://ibotpeaches.github.io/Apktool/>
-
-* 反编译获取资源文件: `.\apktool.bat d -f .\test.apk -o test`
-* 编译获取APK: `.\apktool.bat b .\test\`
 
 ## Dex2Jar
 
@@ -19,8 +21,6 @@
 * <http://jd.benow.ca/>
 
 ## AXMLPrinter3
-
-`java -jar AXMLPrinter3.jar .\AndroidManifest.xml > .\AndroidManifest_1.xml`
 
 ## APKSign
 
