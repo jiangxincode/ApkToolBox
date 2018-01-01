@@ -5,3 +5,6 @@ ApkToolBox: 0.0.1
     Apktool: v2.3.1 <https://github.com/iBotPeaches/Apktool>
     AXMLPrinter3: 网络修改版
     zipalign: Copyright (C) 2009 The Android Open Source Project
+    dexdump: Copyright (C) 2007 The Android Open Source Project
+    dedexer: 1.26 <https://sourceforge.net/projects/dedexer/>
+    smali/baksmali: 2.1.3 <https://github.com/JesusFreke/smali>
