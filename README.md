@@ -5,3 +5,12 @@
 * 本项目欢迎大家共同修改。
 
 如果出现Dex2Jar报错版本不支持，可以参考<http://blog.csdn.net/jltxgcy/article/details/52599353>重新编译源码。
+
+## Usage
+
+```powershell
+cd ~
+git clone https://github.com/jiangxincode/ApkToolBox.git
+cd ApkToolBox
+.\ApkToolBox.ps1 -help
+```
