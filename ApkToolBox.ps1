@@ -1,4 +1,4 @@
-﻿Param ($in, $out, [int]$option=0, [switch]$help)
+﻿Param ($in, $out, [int]$option=0, [switch]$help, [switch]$version)
 
 
 function APKToolDecode ($IN_PUT, $OUT_PUT) {
@@ -51,7 +51,7 @@ function Dex2Jar ($IN_PUT, $OUT_PUT) {
         Remove-Item $OUT_PUT -recurse
     }
     Write-Output "===============================================dex2jar start"
-    dex2jar-2.1-SNAPSHOT/d2j-dex2jar.bat $IN_PUT -o $OUT_PUT
+    dex2jar/d2j-dex2jar.bat $IN_PUT -o $OUT_PUT
     Write-Output "===============================================dex2jar end"
 }
 
@@ -91,7 +91,7 @@ if ($help) {
     Write-Output "Usage: `t .\ApkToolBox.ps1 -in input -out output -option [0, 1, 2, ...]"
     Write-Output "Comment: `t [input] is a file and [output] is a directory"
     Write-Output "Author: `t Aloys, jiangxinnju@163.com"
-    Write-Output "Update from: `t https://github.com/jiangxincode/APKDecompiler"
+    Write-Output "Update From: `t https://github.com/jiangxincode/APKDecompiler"
     Write-Output "Option List:"
     Write-Output "`t 0: common. [input] is a file and [output] is a directory"
     Write-Output "`t 10: decompile apk using apktool. [input] is a file and [output] is a directory"
@@ -104,11 +104,17 @@ if ($help) {
     return
 }
 
+$CURRENT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
+
+if ($version) {
+    $content = Get-Content -Path "$CURRENT_DIR/versions.txt"
+    Write-Output $content
+    return
+}
+
 Write-Output "in is: $in"
 Write-Output "out is: $out"
 Write-Output "option is: $option"
-
-$CURRENT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
 Write-Output "CURRENT_DIR is: $CURRENT_DIR"
 
 if ($in -eq $null) {

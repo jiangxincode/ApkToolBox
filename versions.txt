@@ -1,0 +1,7 @@
+ApkToolBox: 0.0.1
+    JD-GUI: 1.4.0 <http://jd.benow.ca/>
+    dex2jar: dex2jar-2.1-SNAPSHOT <https://github.com/pxb1988/dex2jar> <https://github.com/timofonic-java/dex2jar>
+    7Zip: 9.20 2010-11-18
+    Apktool: v2.3.1 <https://github.com/iBotPeaches/Apktool>
+    AXMLPrinter3: 网络修改版
+    zipalign: Copyright (C) 2009 The Android Open Source Project
