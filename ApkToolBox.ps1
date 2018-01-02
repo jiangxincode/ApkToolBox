@@ -12,7 +12,8 @@ function APKToolDecode ($IN_PUT, $OUT_PUT) {
     }
     Write-Output "===============================================delete $OUT_PUT end"
     
-    java -jar "-Duser.language=en" "-Dfile.encoding=UTF8" "$CURRENT_DIR/apktool.jar" d -f $IN_PUT -o $OUT_PUT
+    # add -k for the error "Invalid config flags detected"
+    java -jar "-Duser.language=en" "-Dfile.encoding=UTF8" "$CURRENT_DIR/apktool.jar" -k d -f $IN_PUT -o $OUT_PUT
     Write-Output "===============================================APKToolDecode end"
 }
 
