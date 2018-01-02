@@ -31,8 +31,8 @@ function APKToolEncode ($IN_PUT, $OUT_PUT) {
     Write-Output "===============================================APKToolEncode end"
 }
 
-function 7Zip ($IN_PUT, $OUT_PUT) {
-    Write-Output "===============================================7Zip start"
+function SevenZip ($IN_PUT, $OUT_PUT) {
+    Write-Output "===============================================SevenZip start"
 
     Write-Output "INPUT is: $IN_PUT, and OUTPUT is: $OUT_PUT"
 
@@ -42,8 +42,8 @@ function 7Zip ($IN_PUT, $OUT_PUT) {
     }
     Write-Output "===============================================delete $OUT_PUT end"
     
-    ./7z.exe x $IN_PUT -o"$OUT_PUT" -y
-    Write-Output "===============================================7Zip end"
+    ./7z.exe x $IN_PUT "-o$OUT_PUT" -y
+    Write-Output "===============================================SevenZip end"
 }
 
 function Dex2Jar ($IN_PUT, $OUT_PUT) {
@@ -235,7 +235,7 @@ if (-not (Test-Path $IN_PUT)) {
 
 if ($option -eq 0) {
     APKToolDecode $IN_PUT "$OUT_PUT/apktool"
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     Dex2Jar "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dex2jar/classes.jar"
     JDGUI "$OUT_PUT/dex2jar/classes.jar"
     ZipAlign $IN_PUT "$OUT_PUT/zipalign/test_new.apk"
@@ -251,16 +251,16 @@ elseif ($option -eq 11) {
     return
 }
 elseif ($option -eq 20) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     return
 }
 elseif ($option -eq 30) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     Dex2Jar "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dex2jar/classes.jar"
     return
 }
 elseif ($option -eq 40) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     Dex2Jar "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dex2jar/classes.jar"
     JDGUI "$OUT_PUT/dex2jar/classes.jar"
     return
@@ -270,17 +270,17 @@ elseif ($option -eq 50) {
     return
 }
 elseif ($option -eq 60) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     AXMLPrinter3 "$OUT_PUT/7zip/AndroidManifest.xml" "$OUT_PUT/AXMLPrinter3"
     return
 }
 elseif ($option -eq 70) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     DexDump "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dexdump"
     return
 }
 elseif ($option -eq 80) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     DeDexer "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dedexer"
     return
 }
@@ -289,7 +289,7 @@ elseif ($option -eq 90) {
     return
 }
 elseif ($option -eq 100) {
-    7Zip $IN_PUT "$OUT_PUT/7zip"
+    SevenZip $IN_PUT "$OUT_PUT/7zip"
     baksmali "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/baksmali"
     return
 }
