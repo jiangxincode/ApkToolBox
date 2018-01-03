@@ -1,4 +1,4 @@
-﻿Param ($in, $out, [int]$option = 0, [switch]$help, [switch]$version)
+﻿Param ($in, $out, [int]$option = 0, [switch]$help, [switch]$h, [switch]$version, [switch]$v)
 
 
 function APKToolDecode ($IN_PUT, $OUT_PUT) {
@@ -42,8 +42,12 @@ function SevenZip ($IN_PUT, $OUT_PUT) {
         Remove-Item $OUT_PUT -recurse
     }
     Write-Output "===============================================delete $OUT_PUT end"
+
+    If (!(Test-Path $OUT_PUT)) {
+        New-Item -ItemType Directory -Force -Path $OUT_PUT
+    }
     
-    ./7z.exe x $IN_PUT "-o$OUT_PUT" -y
+    ."$PSScriptRoot/7z.exe" x $IN_PUT "-o$OUT_PUT" -y
     Write-Output "===============================================SevenZip end"
 }
 
@@ -52,7 +56,7 @@ function Dex2Jar ($IN_PUT, $OUT_PUT) {
         Remove-Item $OUT_PUT -recurse
     }
     Write-Output "===============================================dex2jar start"
-    dex2jar/d2j-dex2jar.bat $IN_PUT -o $OUT_PUT
+    ."$PSScriptRoot/dex2jar/d2j-dex2jar.bat" $IN_PUT -o $OUT_PUT
     Write-Output "===============================================dex2jar end"
 }
 
@@ -64,7 +68,7 @@ function ZipAlign ($IN_PUT, $OUT_PUT) {
     If (!(Test-Path $OUT_PUT)) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
-    ./zipalign.exe -f -v 4 $IN_PUT "$OUT_PUT/destination.apk"
+    ."$PSScriptRoot/zipalign.exe" -f -v 4 $IN_PUT "$OUT_PUT/destination.apk"
     Write-Output "===============================================zipalign end"
 }
 
@@ -95,7 +99,7 @@ function DexDump ($IN_PUT, $OUT_PUT) {
     If (!(Test-Path $OUT_PUT)) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
-    ./dexdump.exe -d $IN_PUT > "$OUT_PUT/dexdump.dump"
+    ."$PSScriptRoot/dexdump.exe" -d $IN_PUT > "$OUT_PUT/dexdump.dump"
     Write-Output "===============================================DexDump end"
 }
 
@@ -162,19 +166,24 @@ function GetScreenShot ($OUT_PUT) {
     Write-Output "===============================================GetScreenShot end"
 }
 
-function GetScreenRecord ($OUT_PUT) {
+function GetScreenRecord () {
     Write-Output "===============================================GetScreenRecord start"
     adb shell screenrecord /sdcard/screenrecord.mp4 --verbose
+    Write-Output "===============================================GetScreenRecord end"
+}
+
+function PullScreenRecord ($OUT_PUT) {
+    Write-Output "===============================================PullScreenRecord start"
     If (!(Test-Path $OUT_PUT)) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
     $CURRENT_TIME = Get-Date -Format 'yyyyMMddHHmmss'
     adb pull /sdcard/screenrecord.mp4 "$OUT_PUT/screenrecord_$CURRENT_TIME.mp4"
-    Write-Output "===============================================GetScreenRecord end"
+    Write-Output "===============================================PullScreenRecord end"
 }
 
 
-if ($help) {
+if ($help -or $h) {
     Write-Output "Usage: `t .\ApkToolBox.ps1 -in input -out output -option [0, 1, 2, ...]"
     Write-Output "Comment: `t [input] is a file/directory and [output] is a directory"
     Write-Output "Author: `t Aloys, jiangxinnju@163.com"
@@ -194,14 +203,14 @@ if ($help) {
     Write-Output "`t 100: decompile the dex using baksmali. [input] is a file"
     Write-Output "`t 110: compile the dex using smali. [input] is a directory"
     Write-Output "`t 200: get the screenshot"
-    Write-Output "`t 210: get the screenrecord"
+    Write-Output "`t 210/211: get the screenrecord"
     
     return
 }
 
 $CURRENT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-if ($version) {
+if ($version -or $v) {
     $content = Get-Content -Path "$CURRENT_DIR/versions.txt"
     Write-Output $content
     return
@@ -303,7 +312,11 @@ elseif ($option -eq 200) {
     return
 }
 elseif ($option -eq 210) {
-    GetScreenRecord "$OUT_PUT/screenrecord"
+    GetScreenRecord
+    return
+}
+elseif ($option -eq 211) {
+    PullScreenRecord "$OUT_PUT/screenrecord"
     return
 }
 else {
