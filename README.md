@@ -31,3 +31,10 @@ git clone https://github.com/jiangxincode/ApkToolBox.git
 cd ApkToolBox
 .\ApkToolBox.ps1 -help
 ```
+
+## TODO
+
+for some version apks:
+
+Dexdump: unsupported dex version (30 33 37 00)
+DeDexer: Value read:0x37; value expected:[0x36, 0x35, 0x33]

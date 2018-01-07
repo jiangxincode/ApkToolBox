@@ -8,3 +8,5 @@ ApkToolBox: 0.0.1
     dexdump: Copyright (C) 2007 The Android Open Source Project
     dedexer: 1.26 <https://sourceforge.net/projects/dedexer/>
     smali/baksmali: 2.1.3 <https://github.com/JesusFreke/smali>
+    sqlite: sqlite-tools-win32-x86-3210000 <http://www.sqlite.org/>
+    busybox: 1.26.2 <https://busybox.net/>

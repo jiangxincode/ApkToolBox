@@ -1,6 +1,12 @@
 ﻿Param ($in, $out, [int]$option = 0, [switch]$help, [switch]$h, [switch]$version, [switch]$v)
 
 
+# Can't use $PSScriptRoot for current directory, it is only used in PS 3 or above.
+$CURRENT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
+
+
+
+
 function APKToolDecode ($IN_PUT, $OUT_PUT) {
     Write-Output "===============================================APKToolDecode start"
 
@@ -47,7 +53,7 @@ function SevenZip ($IN_PUT, $OUT_PUT) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
     
-    ."$PSScriptRoot/7z.exe" x $IN_PUT "-o$OUT_PUT" -y
+    ."$CURRENT_DIR/7z.exe" x $IN_PUT "-o$OUT_PUT" -y
     Write-Output "===============================================SevenZip end"
 }
 
@@ -56,7 +62,7 @@ function Dex2Jar ($IN_PUT, $OUT_PUT) {
         Remove-Item $OUT_PUT -recurse
     }
     Write-Output "===============================================dex2jar start"
-    ."$PSScriptRoot/dex2jar/d2j-dex2jar.bat" $IN_PUT -o $OUT_PUT
+    ."$CURRENT_DIR/dex2jar/d2j-dex2jar.bat" $IN_PUT -o $OUT_PUT
     Write-Output "===============================================dex2jar end"
 }
 
@@ -68,7 +74,7 @@ function ZipAlign ($IN_PUT, $OUT_PUT) {
     If (!(Test-Path $OUT_PUT)) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
-    ."$PSScriptRoot/zipalign.exe" -f -v 4 $IN_PUT "$OUT_PUT/destination.apk"
+    ."$CURRENT_DIR/zipalign.exe" -f -v 4 $IN_PUT "$OUT_PUT/destination.apk"
     Write-Output "===============================================zipalign end"
 }
 
@@ -86,7 +92,7 @@ function AXMLPrinter3 ($IN_PUT, $OUT_PUT) {
 
 function JDGUI ($IN_PUT) {
     Write-Output "===============================================jd-gui start"
-    jd-gui.exe $IN_PUT
+    ."$CURRENT_DIR/jd-gui.exe" $IN_PUT
     Write-Output "===============================================jd-gui end"
 }
 
@@ -99,7 +105,7 @@ function DexDump ($IN_PUT, $OUT_PUT) {
     If (!(Test-Path $OUT_PUT)) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
-    ."$PSScriptRoot/dexdump.exe" -d $IN_PUT > "$OUT_PUT/dexdump.dump"
+    ."$CURRENT_DIR/dexdump.exe" -d $IN_PUT > "$OUT_PUT/dexdump.dump"
     Write-Output "===============================================DexDump end"
 }
 
@@ -207,8 +213,6 @@ if ($help -or $h) {
     
     return
 }
-
-$CURRENT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
 if ($version -or $v) {
     $content = Get-Content -Path "$CURRENT_DIR/versions.txt"
