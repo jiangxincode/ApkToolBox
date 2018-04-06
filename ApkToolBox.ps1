@@ -172,6 +172,18 @@ function GetScreenShot ($OUT_PUT) {
     Write-Output "===============================================GetScreenShot end"
 }
 
+function GetScreenShotAndOpenDirectory ($OUT_PUT) {
+    Write-Output "===============================================GetScreenShot start"
+    adb shell /system/bin/screencap -p /sdcard/screenshot.png
+    If (!(Test-Path $OUT_PUT)) {
+        New-Item -ItemType Directory -Force -Path $OUT_PUT
+    }
+    $CURRENT_TIME = Get-Date -Format 'yyyyMMddHHmmss'
+    adb pull /sdcard/screenshot.png "$OUT_PUT/screenshot_$CURRENT_TIME.png"
+    Start-Process $OUT_PUT
+    Write-Output "===============================================GetScreenShot end"
+}
+
 function GetScreenRecord () {
     Write-Output "===============================================GetScreenRecord start"
     adb shell screenrecord /sdcard/screenrecord.mp4 --verbose
@@ -209,6 +221,7 @@ if ($help -or $h) {
     Write-Output "`t 100: decompile the dex using baksmali. [input] is a file"
     Write-Output "`t 110: compile the dex using smali. [input] is a directory"
     Write-Output "`t 200: get the screenshot"
+    Write-Output "`t 201: get the screenshot and open the screenshot directory"
     Write-Output "`t 210/211: get the screenrecord"
     
     return
@@ -313,6 +326,10 @@ elseif ($option -eq 110) {
 }
 elseif ($option -eq 200) {
     GetScreenShot "$OUT_PUT/screenshot"
+    return
+}
+elseif ($option -eq 201) {
+    GetScreenShotAndOpenDirectory "$OUT_PUT/screenshot"
     return
 }
 elseif ($option -eq 210) {
