@@ -1,4 +1,4 @@
-﻿Param ($in, $out, [int]$option = 0, [switch]$help, [switch]$h, [switch]$version, [switch]$v)
+﻿Param ($in, $out, $p, [int]$option = 0, [switch]$help, [switch]$h, [switch]$version, [switch]$v)
 
 
 # Can't use $PSScriptRoot for current directory, it is only used in PS 3 or above.
@@ -200,9 +200,15 @@ function PullScreenRecord ($OUT_PUT) {
     Write-Output "===============================================PullScreenRecord end"
 }
 
+function FindDirectory ($IN_PUT, $REGEX) {
+    Write-Output "===============================================FindDirectory start"
+    Get-ChildItem -Path $IN_PUT -ErrorAction SilentlyContinue $REGEX
+    Write-Output "===============================================FindDirectory end"
+}
+
 
 if ($help -or $h) {
-    Write-Output "Usage: `t .\ApkToolBox.ps1 -in input -out output -option [0, 1, 2, ...]"
+    Write-Output "Usage: `t .\ApkToolBox.ps1 -in input -out output -p param -option [0, 1, 2, ...]"
     Write-Output "Comment: `t [input] is a file/directory and [output] is a directory"
     Write-Output "Author: `t Aloys, jiangxinnju@163.com"
     Write-Output "Update From: `t https://github.com/jiangxincode/APKDecompiler"
@@ -223,6 +229,7 @@ if ($help -or $h) {
     Write-Output "`t 200: get the screenshot"
     Write-Output "`t 201: get the screenshot and open the screenshot directory"
     Write-Output "`t 210/211: get the screenrecord"
+    Write-Output "`t 300: find directory using regrex. [input] is a file [param] is a regex string"
     
     return
 }
@@ -258,6 +265,10 @@ Write-Output "OUTPUT is: $OUT_PUT"
 if (-not (Test-Path $IN_PUT)) {
     Write-Error "INPUT_FILE doesn't exist."
     return
+}
+
+if ($in -ne $null) {
+    Write-Output "PARAM is: $p"
 }
 
 if ($option -eq 0) {
@@ -338,6 +349,10 @@ elseif ($option -eq 210) {
 }
 elseif ($option -eq 211) {
     PullScreenRecord "$OUT_PUT/screenrecord"
+    return
+}
+elseif ($option -eq 300) {
+    FindDirectory $IN_PUT $p
     return
 }
 else {
