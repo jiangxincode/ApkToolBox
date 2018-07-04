@@ -206,6 +206,12 @@ function FindDirectory ($IN_PUT, $REGEX) {
     Write-Output "===============================================FindDirectory end"
 }
 
+function GetMethodCount ($IN_PUT, $PARAM) {
+    Write-Output "===============================================FindDirectory start"
+    java -jar "$CURRENT_DIR/dex-method-counts.jar" $IN_PUT $PARAM
+    Write-Output "===============================================FindDirectory end"
+}
+
 
 if ($help -or $h) {
     Write-Output "Usage: `t .\ApkToolBox.ps1 -in input -out output -p param -option [0, 1, 2, ...]"
@@ -230,6 +236,7 @@ if ($help -or $h) {
     Write-Output "`t 201: get the screenshot and open the screenshot directory"
     Write-Output "`t 210/211: get the screenrecord"
     Write-Output "`t 300: find directory using regrex. [input] is a file [param] is a regex string"
+    Write-Output "`t 310: get method count. [input] is a project path [param] is other params"
     
     return
 }
@@ -353,6 +360,10 @@ elseif ($option -eq 211) {
 }
 elseif ($option -eq 300) {
     FindDirectory $IN_PUT $p
+    return
+}
+elseif ($option -eq 310) {
+    GetMethodCount $IN_PUT $p
     return
 }
 else {
