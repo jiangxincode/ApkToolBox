@@ -10,3 +10,4 @@ ApkToolBox: 0.0.1
     smali/baksmali: 2.1.3 <https://github.com/JesusFreke/smali>
     sqlite: sqlite-tools-win32-x86-3210000 <http://www.sqlite.org/>
     busybox: 1.26.2 <https://busybox.net/>
+    dex-method-counts: <https://github.com/jiangxincode/dex-method-counts>

@@ -207,9 +207,15 @@ function FindDirectory ($IN_PUT, $REGEX) {
 }
 
 function GetMethodCount ($IN_PUT, $PARAM) {
-    Write-Output "===============================================FindDirectory start"
+    Write-Output "===============================================GetMethodCount start"
     java -jar "$CURRENT_DIR/dex-method-counts.jar" $IN_PUT $PARAM
-    Write-Output "===============================================FindDirectory end"
+    Write-Output "===============================================GetMethodCount end"
+}
+
+function GetAndroidPath () {
+    Write-Output "===============================================GetAndroidPath start"
+    Get-Content -Path "$CURRENT_DIR/docs/android_path.md" -Encoding UTF8
+    Write-Output "===============================================GetAndroidPath end"
 }
 
 
@@ -237,6 +243,7 @@ if ($help -or $h) {
     Write-Output "`t 210/211: get the screenrecord"
     Write-Output "`t 300: find directory using regrex. [input] is a file [param] is a regex string"
     Write-Output "`t 310: get method count. [input] is a project path [param] is other params"
+    Write-Output "`t 320: get android path list"
     
     return
 }
@@ -252,14 +259,14 @@ Write-Output "out is: $out"
 Write-Output "option is: $option"
 Write-Output "CURRENT_DIR is: $CURRENT_DIR"
 
-if ($in -eq $null) {
+if ($null -eq $in) {
     $IN_PUT = "$CURRENT_DIR/test.apk"
 }
 else {
     $IN_PUT = $in
 }
 
-if ($out -eq $null) {
+if ($null -eq $out) {
     $OUT_PUT = "$CURRENT_DIR/tmp"
 }
 else {
@@ -269,16 +276,15 @@ else {
 Write-Output "INPUT is: $IN_PUT"
 Write-Output "OUTPUT is: $OUT_PUT"
 
-if (-not (Test-Path $IN_PUT)) {
-    Write-Error "INPUT_FILE doesn't exist."
-    return
-}
-
-if ($in -ne $null) {
+if ($null -ne $in) {
     Write-Output "PARAM is: $p"
 }
 
 if ($option -eq 0) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     APKToolDecode $IN_PUT "$OUT_PUT/apktool"
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     Dex2Jar "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dex2jar/classes.jar"
@@ -288,57 +294,105 @@ if ($option -eq 0) {
     return
 }
 elseif ($option -eq 10) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     APKToolDecode $IN_PUT "$OUT_PUT/apktool_d"
     return
 }
 elseif ($option -eq 11) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     APKToolEncode $IN_PUT "$OUT_PUT/apktool_e/new_apk.apk"
     return
 }
 elseif ($option -eq 20) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     return
 }
 elseif ($option -eq 30) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     Dex2Jar "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dex2jar/classes.jar"
     return
 }
 elseif ($option -eq 40) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     Dex2Jar "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dex2jar/classes.jar"
     JDGUI "$OUT_PUT/dex2jar/classes.jar"
     return
 }
 elseif ($option -eq 50) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     ZipAlign $IN_PUT "$OUT_PUT/zipalign"
     return
 }
 elseif ($option -eq 60) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     AXMLPrinter3 "$OUT_PUT/7zip/AndroidManifest.xml" "$OUT_PUT/AXMLPrinter3"
     return
 }
 elseif ($option -eq 70) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     DexDump "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dexdump"
     return
 }
 elseif ($option -eq 80) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     DeDexer "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/dedexer"
     return
 }
 elseif ($option -eq 90) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SignApk $IN_PUT "$OUT_PUT/signapk"
     return
 }
 elseif ($option -eq 100) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     SevenZip $IN_PUT "$OUT_PUT/7zip"
     baksmali "$OUT_PUT/7zip/classes.dex" "$OUT_PUT/baksmali"
     return
 }
 elseif ($option -eq 110) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     smali $IN_PUT "$OUT_PUT/smali"
     return
 }
@@ -359,11 +413,23 @@ elseif ($option -eq 211) {
     return
 }
 elseif ($option -eq 300) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     FindDirectory $IN_PUT $p
     return
 }
 elseif ($option -eq 310) {
+    if (-not (Test-Path $IN_PUT)) {
+        Write-Error "INPUT_FILE doesn't exist."
+        return
+    }
     GetMethodCount $IN_PUT $p
+    return
+}
+elseif ($option -eq 320) {
+    GetAndroidPath
     return
 }
 else {
