@@ -4,9 +4,6 @@
 # Can't use $PSScriptRoot for current directory, it is only used in PS 3 or above.
 $CURRENT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-
-
-
 function APKToolDecode ($IN_PUT, $OUT_PUT) {
     Write-Output "===============================================APKToolDecode start"
 
@@ -86,7 +83,7 @@ function AXMLPrinter3 ($IN_PUT, $OUT_PUT) {
     If (!(Test-Path $OUT_PUT)) {
         New-Item -ItemType Directory -Force -Path $OUT_PUT
     }
-    java -jar AXMLPrinter3.jar $IN_PUT > "$OUT_PUT/AndroidManifest.xml"
+    java -jar "$CURRENT_DIR/AXMPrinter/AXMLPrinter3.jar" $IN_PUT > "$OUT_PUT/AndroidManifest.xml"
     Write-Output "===============================================AXMLPrinter3 end"
 }
 
